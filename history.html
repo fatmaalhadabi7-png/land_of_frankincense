@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>History & Governorates - Land of Frankincense</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f9f6f0; color: #333; line-height: 1.6; }
+            header { background-color: #2c5e43; color: white; padding: 20px; text-align: center; }
+            nav { background-color: #1e422f; display: flex; justify-content: center; padding: 10px; }
+            nav a { color: white; text-decoration: none; padding: 10px 20px; font-weight: bold; }
+            nav a:hover { background-color: #2c5e43; border-radius: 5px; }
+            .container { max-width: 950px; margin: 0 auto; padding: 40px 20px; }
+            h1 { color: #d4af37; text-align: center; }
+            
+            /* تنسيق أزرار المحافظات العلوية */
+            .gov-menu { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin: 30px 0; }
+            .gov-btn { background-color: #2c5e43; color: white; border: 2px solid #2c5e43; padding: 12px 25px; font-size: 16px; font-weight: bold; border-radius: 25px; cursor: pointer; transition: 0.3s; }
+            .gov-btn:hover { background-color: #d4af37; border-color: #d4af37; transform: translateY(-3px); }
+            .gov-btn.active { background-color: #d4af37; border-color: #d4af37; box-shadow: 0 4px 10px rgba(212,175,55,0.4); }
+
+            /* أقسام المحافظات */
+            .governorate-section { display: none; animation: fadeIn 0.5s ease-in-out forwards; }
+            .governorate-title { color: #2c5e43; background-color: #e8f0ec; padding: 12px 15px; border-left: 5px solid #d4af37; margin-top: 20px; border-radius: 0 5px 5px 0; font-size: 22px; }
+            
+            /* تنسيق بطاقات المعالم الداخلية */
+            .landmark-card { background-color: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); margin-bottom: 20px; margin-top: 15px; display: flex; flex-direction: column; gap: 15px; }
+            .landmark-content { display: flex; gap: 25px; flex-wrap: wrap; align-items: center; }
+            .landmark-text { flex: 2; min-width: 250px; }
+            .landmark-card h3 { color: #1e422f; margin-top: 0; font-size: 20px; border-bottom: 1px solid #eee; padding-bottom: 8px; }
+            
+            /* 👑 نظام الـ Swipe / الملتيميديا للصور */
+            .carousel-container { flex: 1; min-width: 250px; max-width: 320px; position: relative; height: 180px; overflow: hidden; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); background-color: #eee; }
+            .carousel-slide { display: none; width: 100%; height: 100%; object-fit: cover; }
+            .carousel-slide.active { display: block; animation: slideFade 0.3s ease-in-out; }
+            
+            /* أزرار الأسهم للتقليب يمين ويسار */
+            .prev-btn, .next-btn { position: absolute; top: 50%; transform: translateY(-50%); background-color: rgba(44, 94, 67, 0.75); color: white; border: none; font-size: 16px; font-weight: bold; width: 32px; height: 32px; cursor: pointer; border-radius: 50%; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
+            .prev-btn:hover, .next-btn:hover { background-color: #d4af37; color: #1e422f; }
+            .prev-btn { left: 8px; }
+            .next-btn { right: 8px; }
+
+            /* رابط الحجز الذكي */
+            .booking-link { display: inline-block; align-self: flex-start; margin-top: 5px; color: #d4af37; text-decoration: none; font-weight: bold; font-size: 15px; transition: 0.2s; }
+            .booking-link:hover { color: #b8962d; text-decoration: underline; transform: translateX(5px); }
+
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            @keyframes slideFade {
+                from { opacity: 0.7; }
+                to { opacity: 1; }
+            }
+        </style>
+    </head>
+    <body>
+
+        <header>
+            <h2>Know about the land of frankincense in one click</h2>
+        </header>
+
+        <nav>
+    <a href="index.html">Home</a>
+    <a href="history.html">History</a>
+    <a href="places.php">Tourist Attractions</a>
+    <a href="login.html">Login</a>
+       </nav>
+
+        <div class="container">
+            <h1>Oman's Historical & Tourist Treasures</h1>
+            <p style="text-align: center; color: #666;">Select a Governorate below to explore its rich history, unique archaeological landmarks, and ancient fortresses. (Click arrows on images to swipe)</p>
+            
+            <div class="gov-menu">
+                <button class="gov-btn" onclick="showGovernorate('muscat', this)">Muscat</button>
+                <button class="gov-btn" onclick="showGovernorate('dakhiliyah', this)">Al Dakhiliyah</button>
+                <button class="gov-btn" onclick="showGovernorate('sharqiyah', this)">South Sharqiyah</button>
+                <button class="gov-btn" onclick="showGovernorate('buraimi', this)">Al Buraimi</button>
+                <button class="gov-btn" onclick="showGovernorate('dhofar', this)">Dhofar</button>
+            </div>
+
+            <!-- 1️⃣ محافظة مسقط -->
+            <div id="muscat" class="governorate-section">
+                <h2 class="governorate-title">Muscat Governorate (محافظة مسقط)</h2>
+                
+                <!-- معلم القديم الرئيسي -->
+                <div class="landmark-card">
+                    <h3>Famous Forts of Muscat (Al Jalali & Al Mirani)</h3>
+                    <div class="landmark-content">
+                        <div class="landmark-text">
+                            <p>Al Jalali and Al Mirani are ancient forts located in the harbor of Old Muscat. Built by the Portuguese in the 16th century, these forts stood as strong defensive shields protecting the city. Today, they represent great military architecture and offer a spectacular view of the Sea of Oman.</p>
+                            <a href="places.html?destination=Muscat Forts" class="booking-link">👉 Book this destination in one click</a>
+                        </div>
+                        <div class="carousel-container">
+                            <img src="images/muscat_forts.jpg" class="carousel-slide active" alt="Muscat Forts">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- سوق مطرح وكورنيش مطرح (3 صور مدمجة في الـ Swipe بناءً على طلبكِ) -->
+                <div class="landmark-card">
+                    <h3>Mutrah Souq & Corniche (سوق مطرح وكورنيش مطرح)</h3>
+                    <div class="landmark-content">
+                        <div class="landmark-text">
+                            <p>Mutrah Souq is one of the oldest marketplaces in the Arab world. Located adjacent to the vibrant harbor, it features narrow winding alleys filled with the rich aroma of frankincense, Omani silver, and local handicrafts. Right next to it is the Mutrah Corniche, a spectacular waterfront promenade surrounded by dramatic mountains, perfect for peaceful evening strolls.</p>
+                            <a href="places.html?destination=Mutrah Souq" class="booking-link">👉 Book this destination in one click</a>
+                        </div>
+                        <div class="carousel-container">
+                            <img src="images/souq_mut.jpg" class="carousel-slide active" alt="Mutrah Souq 1">
+                            <img src="images/mutrah_souq.jpg" class="carousel-slide" alt="Mutrah Souq 2">
+                            <img src="images/corniche.webp" class="carousel-slide" alt="Mutrah Corniche">
+                            <button class="prev-btn" onclick="moveSlide(this, -1)">❮</button>
+                            <button class="next-btn" onclick="moveSlide(this, 1)">❯</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- بيت الزبير (صورتين) -->
+                <div class="landmark-card">
+                    <h3>Bait Al Zubair Museum (بيت الزبير)</h3>
+                    <div class="landmark-content">
+                        <div class="landmark-text">
+                            <p>Bait Al Zubair is a private cultural heritage museum in old Muscat. It houses an extensive collection of ancient Omani weaponry, traditional costumes, daggers (Khanjars), and historic jewelry that beautifully display the authentic cultural lifestyle of Oman.</p>
+                            <a href="places.html?destination=Bait Al Zubair" class="booking-link">👉 Book this destination in one click</a>
+                        </div>
+                        <div class="carousel-container">
+                            <img src="images/bait_zubair.jpg" class="carousel-slide active" alt="Bait Al Zubair 1">
+                            <img src="images/alzubair.jpg" class="carousel-slide" alt="Bait Al Zubair 2">
+                            <button class="prev-btn" onclick="moveSlide(this, -1)">❮</button>
+                            <button class="next-btn" onclick="moveSlide(this, 1)">❯</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- قصر العلم (صورتين مع الـ webp) -->
+                <div class="landmark-card">
+                    <h3>Al Alam Palace (قصر العلم العامر)</h3>
+                    <div class="landmark-content">
+                        <div class="landmark-text">
+                            <p>Al Alam Palace is the elegant ceremonial palace of His Majesty the Sultan. Celebrated for its eye-catching gold and blue pillars, the palace stands as a magnificent monument of modern Islamic architecture located right between the historic forts.</p>
+                            <a href="places.html?destination=Al Alam Palace" class="booking-link">👉 Book this destination in one click</a>
+                        </div>
+                        <div class="carousel-container">
+                            <img src="images/alam_pa1.webp" class="carousel-slide active" alt="Al Alam Palace 1">
+                            <img src="images/alam_palace.jpg" class="carousel-slide" alt="Al Alam Palace 2">
+                            <button class="prev-btn" onclick="moveSlide(this, -1)">❮</button>
+                            <button class="next-btn" onclick="moveSlide(this, 1)">❯</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2️⃣ محافظة الداخلية -->
+            <div id="dakhiliyah" class="governorate-section">
+                <h2 class="governorate-title">Al Dakhiliyah Governorate (محافظة الداخلية)</h2>
+                
+                <!-- قلعة نزوى (صورتين) -->
+                <div class="landmark-card">
+                    <h3>Nizwa Fort (قلعة نزوى)</h3>
+                    <div class="landmark-content">
+                        <div class="landmark-text">
+                            <p>Nizwa Fort is one of the oldest and most famous castles in Oman, built in the 17th century by Imam Sultan bin Saif Al Yarubi. It is unique for its massive circular tower, which is the largest in the Arabian Peninsula. It reflects the deep history of Nizwa when it was the capital of Oman.</p>
+                            <a href="places.html?destination=Nizwa Fort" class="booking-link">👉 Book this destination in one click</a>
+                        </div>
+                        <div class="carousel-container">
+                            <img src="images/nizwa.jpg" class="carousel-slide active" alt="Nizwa Fort 1">
+                            <img src="images/niz_wa.jpg" class="carousel-slide" alt="Nizwa Fort 2">
+                            <button class="prev-btn" onclick="moveSlide(this, -1)">❮</button>
+                            <button class="next-btn" onclick="moveSlide(this, 1)">❯</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- الجبل الأخضر (3 صور) -->
+                <div class="landmark-card">
+                    <h3>Jabal Akhdar - The Green Mountain (الجبل الأخضر)</h3>
+                    <div class="landmark-content">
+                        <div class="landmark-text">
+                            <p>Jabal Akhdar is part of the Al Hajar Mountain range. It is famous for its unique Mediterranean climate, agricultural terraces, and stunning landscapes. It is world-renowned for producing pomegranates, walnuts, apricots, and the famous Omani rose water.</p>
+                            <a href="places.html?destination=Jabal Akhdar" class="booking-link">👉 Book this destination in one click</a>
+                        </div>
+                        <div class="carousel-container">
+                            <img src="images/jabal_akhdar.jpg" class="carousel-slide active" alt="Jabal Akhdar 1">
+                            <img src="images/jabal_ak1.jpg" class="carousel-slide" alt="Jabal Akhdar 2">
+                            <img src="images/jabal_ak2.jpg" class="carousel-slide" alt="Jabal Akhdar 3">
+                            <button class="prev-btn" onclick="moveSlide(this, -1)">❮</button>
+                            <button class="next-btn" onclick="moveSlide(this, 1)">❯</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- كهف الهوتة -->
+                <div class="landmark-card">
+                    <h3>Al Hoota Cave (كهف الهوته)</h3>
+                    <div class="landmark-content">
+                        <div class="landmark-text">
+                            <p>Estimated to be over 2 million years old, Al Hoota Cave is located at the foot of Jabal Shams. It is one of Oman’s top natural attractions, famous for its incredible stalactites and stalagmites, as well as a large underground lake that is home to rare blind cave fish.</p>
+                            <a href="places.html?destination=Al Hoota Cave" class="booking-link">👉 Book this destination in one click</a>
+                        </div>
+                        <div class="carousel-container">
+                            <img src="images/alhoota.jpg" class="carousel-slide active" alt="Al Hoota Cave">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3️⃣ محافظة جنوب الشرقية -->
+            <div id="sharqiyah" class="governorate-section">
+                <h2 class="governorate-title">South Sharqiyah Governorate (محافظة جنوب الشرقية)</h2>
+                
+                <!-- محمية رأس الجنز (صورتين جديدتين) -->
+                <div class="landmark-card">
+                    <h3>Ras Al Jinz Turtle Reserve (محمية رأس الجنز)</h3>
+                    <div class="landmark-content">
+                        <div class="landmark-text">
+                            <p>Ras Al Jinz is a world-renowned ecotourism destination located in Sur. It is a natural sanctuary for the endangered Green Turtles, where thousands of turtles migrate annually to lay their eggs on the pristine beaches, offering an unforgettable wildlife experience.</p>
+                            <a href="places.html?destination=Ras Al Jinz" class="booking-link">👉 Book this destination in one click</a>
+                        </div>
+                        <div class="carousel-container">
+                            <img src="images/jinz.jpg" class="carousel-slide active" alt="Ras Al Jinz 1">
+                            <img src="images/jinz1.jpg" class="carousel-slide" alt="Ras Al Jinz 2">
+                            <img src="images/ras_aljinz.jpg" class="carousel-slide" alt="Ras Al Jinz 3">
+                            <button class="prev-btn" onclick="moveSlide(this, -1)">❮</button>
+                            <button class="next-btn" onclick="moveSlide(this, 1)">❯</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- حصن السنيسلة -->
+                <div class="landmark-card">
+                    <h3>Sunaysilah Fort in Sur (حصن السنيسلة)</h3>
+                    <div class="landmark-content">
+                        <div class="landmark-text">
+                            <p>Sunaysilah Fort is a classic 300-year-old Omani castle built on a high hill overlooking the historic coastal city of Sur. It was constructed to protect the city and its traditional maritime trade routes. The fort features four circular watchtowers and traditional defense structures.</p>
+                            <a href="places.html?destination=Sunaysilah Fort" class="booking-link">👉 Book this destination in one click</a>
+                        </div>
+                        <div class="carousel-container">
+                            <img src="images/sunaysilah_fort.webp" class="carousel-slide active" alt="Sunaysilah Fort">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4️⃣ محافظة البريمي -->
+            <div id="buraimi" class="governorate-section">
+                <h2 class="governorate-title">Al Buraimi Governorate (محافظة البريمي)</h2>
+                
+                <!-- حصن الخندق الأصلي -->
+                <div class="landmark-card">
+                    <h3>Al Khandaq Fort (حصن الخندق)</h3>
+                    <div class="landmark-content">
+                        <div class="landmark-text">
+                            <p>Al Khandaq Fort is one of the most important historical landmarks in Al Buraimi. Named after the deep trench (Khandaq) that surrounds it for defense, this traditional square fort reflects ancient Omani military engineering and served as a central governance hub for centuries.</p>
+                            <a href="places.html?destination=Al Khandaq Fort" class="booking-link">👉 Book this destination in one click</a>
+                        </div>
+                        <div class="carousel-container">
+                            <img src="images/khandaq_fort.jpg" class="carousel-slide active" alt="Al Khandaq Fort">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- حصن الحلة (صورتين مع الـ png والـ jpg) -->
+                <div class="landmark-card">
+                    <h3>Al Hillah Fort (حصن الحلة)</h3>
+                    <div class="landmark-content">
+                        <div class="landmark-text">
+                            <p>Located in the heart of Al Buraimi oasis, Al Hillah Fort is famous for its unique Islamic plaster decorations, elegant rooms, and high protective walls. It stands as a beautiful symbol of Omani social life and governance architecture in the region during ancient times.</p>
+                            <a href="places.html?destination=Al Hillah Fort" class="booking-link">👉 Book this destination in one click</a>
+                        </div>
+                        <div class="carousel-container">
+                            <img src="images/hillah_fort.png" class="carousel-slide active" alt="Al Hillah Fort 1">
+                            <img src="images/hillah_f1.jpg" class="carousel-slide" alt="Al Hillah Fort 2">
+                            <button class="prev-btn" onclick="moveSlide(this, -1)">❮</button>
+                            <button class="next-btn" onclick="moveSlide(this, 1)">❯</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5️⃣ محافظة ظفار -->
+            <div id="dhofar" class="governorate-section">
+                <h2 class="governorate-title">Dhofar Governorate (محافظة ظفار)</h2>
+                
+                <!-- المعلم الأصلي القديم بالملي -->
+                <div class="landmark-card">
+                    <h3>The Land of Frankincense Sites</h3>
+                    <div class="landmark-content">
+                        <div class="landmark-text">
+                            <p>Dhofar is the historical capital of Frankincense. It includes UNESCO World Heritage sites like the ancient ports of Al Baleed and Samharam, and the natural reserve of Wadi Dawkah. These sites linked Oman to ancient empires through the famous historic trade routes.</p>
+                            <a href="places.html?destination=Dhofar" class="booking-link">👉 Book this destination in one click</a>
+                        </div>
+                        <div class="carousel-container">
+                            <img src="images/salalah.jpg" class="carousel-slide active" alt="Dhofar">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- وادي دربات (صورتين مع امتداد jpeg و jpg) -->
+                <div class="landmark-card">
+                    <h3>Wadi Darbat (وادي دربات)</h3>
+                    <div class="landmark-content">
+                        <div class="landmark-text">
+                            <p>Wadi Darbat is a breathtaking natural park in Dhofar's mountains. Famous for its majestic waterfalls during the Khareef season, lush green forests, natural fresh springs, and a beautiful central lake where visitors can enjoy relaxing boat rides in nature.</p>
+                            <a href="places.html?destination=Wadi Darbat" class="booking-link">👉 Book this destination in one click</a>
+                        </div>
+                        <div class="carousel-container">
+                            <img src="images/darbat.jpg" class="carousel-slide active" alt="Wadi Darbat 1">
+                            <img src="images/darbat_m1.jpeg" class="carousel-slide" alt="Wadi Darbat 2">
+                            <button class="prev-btn" onclick="moveSlide(this, -1)">❮</button>
+                            <button class="next-btn" onclick="moveSlide(this, 1)">❯</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- شاطئ المغسيل (صورتين) -->
+                <div class="landmark-card">
+                    <h3>Al Mughsail Beach (شاطئ المغسيل)</h3>
+                    <div class="landmark-content">
+                        <div class="landmark-text">
+                            <p>Al Mughsail is a stunning golden beach famous for its high limestone cliffs and natural sea blowholes, where sea water blasts high into the air. It offers panoramic views of the roaring waves of the Arabian Sea and is a favorite spot for visitors.</p>
+                            <a href="places.html?destination=Al Mughsail Beach" class="booking-link">👉 Book this destination in one click</a>
+                        </div>
+                        <div class="carousel-container">
+                            <img src="images/mughsail.jpg" class="carousel-slide active" alt="Al Mughsail Beach 1">
+                            <img src="images/mug_sail.jpg" class="carousel-slide" alt="Al Mughsail Beach 2">
+                            <button class="prev-btn" onclick="moveSlide(this, -1)">❮</button>
+                            <button class="next-btn" onclick="moveSlide(this, 1)">❯</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- كهف المرنيف (صورتين) -->
+                <div class="landmark-card">
+                    <h3>Marneef Cave (كهف المرنيف)</h3>
+                    <div class="landmark-content">
+                        <div class="landmark-text">
+                            <p>Right next to Mughsail Beach lies Marneef Cave, featuring beautiful natural rock formations, deep shaded benches, and fascinating viewpoints looking directly over the active shore blowholes and open cliffs of Salalah.</p>
+                            <a href="places.html?destination=Marneef Cave" class="booking-link">👉 Book this destination in one click</a>
+                        </div>
+                        <div class="carousel-container">
+                            <img src="images/marneef.jpg" class="carousel-slide active" alt="Marneef Cave 1">
+                            <img src="images/mar_neef.jpg" class="carousel-slide" alt="Marneef Cave 2">
+                            <button class="prev-btn" onclick="moveSlide(this, -1)">❮</button>
+                            <button class="next-btn" onclick="moveSlide(this, 1)">❯</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <script>
+            // دالة التبديل بين المحافظات
+            function showGovernorate(govId, btnElement) {
+                const sections = document.querySelectorAll('.governorate-section');
+                sections.forEach(section => section.style.display = 'none');
+                
+                const buttons = document.querySelectorAll('.gov-btn');
+                buttons.forEach(btn => btn.classList.remove('active'));
+                
+                document.getElementById(govId).style.display = 'block';
+                btnElement.classList.add('active');
+            }
+            
+            // 👑 دالة الـ Swipe لتقليب الصور
+            function moveSlide(button, direction) {
+                const container = button.parentElement;
+                const slides = container.querySelectorAll('.carousel-slide');
+                let activeIndex = -1;
+                
+                slides.forEach((slide, index) => {
+                    if (slide.classList.contains('active')) {
+                        activeIndex = index;
+                    }
+                });
+                
+                slides[activeIndex].classList.remove('active');
+                
+                let nextIndex = activeIndex + direction;
+                if (nextIndex >= slides.length) nextIndex = 0;
+                if (nextIndex < 0) nextIndex = slides.length - 1;
+                
+                slides[nextIndex].classList.add('active');
+            }
+            
+            window.onload = function() {
+                const firstBtn = document.querySelector('.gov-btn');
+                if(firstBtn) firstBtn.click();
+            }
+        </script>
+
+    </body>
+</html>

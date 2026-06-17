@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Land of Frankincense</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f9f6f0; color: #333; }
+        
+        /* الواجهة الرئيسية المبهرة */
+        .hero-section { 
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('images/salalah.jpg') no-repeat center center/cover;
+            height: 85vh; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            text-align: center; 
+            color: white;
+            padding: 0 20px;
+        }
+        
+        /* العنوان البراق المشع */
+        .hero-section h1 { 
+            font-size: 48px; 
+            color: #fff; 
+            text-shadow: 0 0 10px #d4af37, 0 0 20px #d4af37, 0 0 30px #d4af37; 
+            margin-bottom: 10px;
+            animation: pulse 2s infinite alternate;
+        }
+        
+        .hero-section p { font-size: 20px; max-width: 600px; margin-bottom: 30px; font-weight: 300; }
+        
+        /* أزرار التنقل الفخمة */
+        nav { background-color: #1e422f; display: flex; justify-content: center; padding: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); align-items: center; }
+        nav a, nav button { color: white; text-decoration: none; padding: 10px 25px; font-weight: bold; border-radius: 5px; transition: 0.3s; background: none; border: none; font-size: 16px; cursor: pointer; }
+        nav a:hover, nav button:hover { background-color: #d4af37; color: #1e422f; }
+        
+        .login-btn { background-color: #d4af37; color: #1e422f !important; margin-left: 15px; }
+        .logout-btn { background-color: #f44336; color: white !important; margin-left: 15px; display: none; }
+        
+        /* زر لوحة تحكم الأدمن السري والخاص */
+        .admin-dash-btn { background-color: #b8962d; color: white !important; margin-left: 15px; display: none; border: 1px dashed #fff; }
+        .admin-dash-btn:hover { background-color: #fff; color: #b8962d !important; }
+
+        .explore-btn { 
+            background-color: #d4af37; color: #1e422f; padding: 12px 30px; 
+            font-size: 18px; font-weight: bold; text-decoration: none; 
+            border-radius: 30px; transition: 0.3s; box-shadow: 0 4px 15px rgba(212,175,55,0.4);
+            cursor: pointer; border: none;
+        }
+        .explore-btn:hover { background-color: #fff; color: #2c5e43; transform: scale(1.05); }
+
+        /* ستايل نافذة التسجيل المنبثقة (Auth Modal) */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7); display: flex; justify-content: center; align-items: center;
+            z-index: 1000; display: none;
+        }
+        .modal-box {
+            background: #f9f6f0; padding: 30px; border-radius: 15px; width: 350px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.3); border: 2px solid #d4af37; position: relative;
+        }
+        .modal-box h2 { color: #1e422f; margin-top: 0; text-align: center; }
+        .modal-box input {
+            width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc;
+            border-radius: 5px; box-sizing: border-box;
+        }
+        .modal-box button {
+            width: 100%; padding: 12px; background: #1e422f; color: white;
+            border: none; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.3s;
+        }
+        .modal-box button:hover { background: #d4af37; color: #1e422f; }
+        .toggle-link { text-align: center; margin-top: 15px; font-size: 14px; color: #555; cursor: pointer; }
+        .toggle-link span { color: #1e422f; font-weight: bold; text-decoration: underline; }
+        .close-modal { position: absolute; top: 10px; right: 15px; font-size: 20px; cursor: pointer; color: #999; }
+
+        /* حالة المستخدم المسجل */
+        .welcome-msg { color: #d4af37; font-weight: bold; margin-left: 15px; display: none; }
+
+        @keyframes pulse {
+            from { text-shadow: 0 0 10px #d4af37, 0 0 20px #d4af37; }
+            to { text-shadow: 0 0 15px #ffeb3b, 0 0 30px #d4af37, 0 0 40px #d4af37; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="history.html">History</a>
+        <a href="places.php">Tourist Attractions</a>
+        <a href="login.html">Login</a>
+        
+        <span id="welcomeMsg" class="welcome-msg"></span>
+        
+        <a href="login.html" id="adminDashBtn" class="admin-dash-btn">Go to Admin Dashboard ⚙️</a>
+        
+        <button id="authBtn" class="login-btn" onclick="openModal()">Login / Sign In</button>
+        <button id="logoutBtn" class="logout-btn" onclick="handleLogout()">Logout</button>
+    </nav>
+
+    <div class="hero-section">
+        <h1>Know about the land of frankincense!!</h1>
+        <p>Discover the ancient history, majestic forts, and magical beauty of Oman’s historic heritage sites.</p>
+        <button class="explore-btn" onclick="checkAccess()">Start Exploring Now ➔</button>
+    </div>
+
+    <div id="authModal" class="modal-overlay">
+        <div class="modal-box">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Login</h2>
+            <form id="authForm" onsubmit="handleSubmit(event)">
+                <input type="text" id="userEmail" placeholder="Enter your email (e.g., user@gmail.com)" required>
+                <input type="password" id="userPassword" placeholder="Enter password" required>
+                <button type="submit" id="submitBtn">Login</button>
+            </form>
+            <div class="toggle-link" onclick="toggleAuthMode()">
+                <p id="toggleText">Don't have an account? <span>Register here</span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isLoginMode = true;
+
+        // حساب الأدمن الموحد في النظام
+        const ADMIN_EMAIL = "admin@gmail.com";
+        const ADMIN_PASSWORD = "admin123";
+
+        document.addEventListener("DOMContentLoaded", function() {
+            updateNavbar();
+        });
+
+        function openModal() {
+            document.getElementById("authModal").style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById("authModal").style.display = "none";
+        }
+
+        function toggleAuthMode() {
+            isLoginMode = !isLoginMode;
+            const title = document.getElementById("modalTitle");
+            const submitBtn = document.getElementById("submitBtn");
+            const toggleText = document.getElementById("toggleText");
+
+            if (isLoginMode) {
+                title.innerText = "Login";
+                submitBtn.innerText = "Login";
+                toggleText.innerHTML = "Don't have an account? <span>Register here</span>";
+            } else {
+                title.innerText = "Register New Account";
+                submitBtn.innerText = "Register";
+                toggleText.innerHTML = "Already have an account? <span>Login here</span>";
+            }
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            const email = document.getElementById("userEmail").value.trim().toLowerCase();
+            const pass = document.getElementById("userPassword").value;
+
+            // التحقق الصارم من صياغة الإيميل (استيفاء شروط الـ @ والنطاق)
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailPattern.test(email)) {
+                alert("⚠️ Error: Please enter a valid email address (missing '@' or domain name like .com, .icloud)!");
+                return;
+            }
+
+            // جلب قاعدة بيانات الحسابات المسجلة محلياً
+            let accounts = JSON.parse(localStorage.getItem("userAccounts")) || {};
+
+            if (!isLoginMode) {
+                // ---- نمط الـ REGISTER (إنشاء حساب جديد) ----
+                if (email === ADMIN_EMAIL) {
+                    alert("⛔ Access Denied: This email address is reserved for system administrators only!");
+                    return;
+                }
+                
+                if (accounts[email]) {
+                    alert("⚠️ This email is already registered! Please login instead.");
+                    return;
+                }
+
+                // حفظ الحساب الجديد في الداتابيس المحلية
+                accounts[email] = pass;
+                localStorage.setItem("userAccounts", JSON.stringify(accounts));
+                alert("🎉 Account created successfully! You can now login.");
+                toggleAuthMode();
+            } else {
+                // ---- نمط الـ LOGIN (تسجيل الدخول للمستخدم أو الأدمن) ----
+                
+                // 1. التحقق إذا كان أدمن النظام
+                if (email === ADMIN_EMAIL) {
+                    if (pass === ADMIN_PASSWORD) {
+                        localStorage.setItem("currentUser", email);
+                        localStorage.setItem("userRole", "Admin");
+                        alert("👑 Welcome Back Admin! Secure Access Granted.");
+                        closeModal();
+                        updateNavbar();
+                        return;
+                    } else {
+                        alert("❌ Error: Incorrect password for Admin! Please try again.");
+                        return;
+                    }
+                }
+
+                // 2. التحقق من الحسابات العادية المخزنة مسبقاً
+                if (!accounts[email]) {
+                    alert("⚠️ User not found! Please register a new account first.");
+                    return;
+                }
+
+                // التحقق من صحة الباسورد المخزن للحساب
+                if (accounts[email] !== pass) {
+                    alert("❌ Error: Incorrect password! Please try again.");
+                    return;
+                }
+
+                // نجاح دخول المستخدم العادي
+                localStorage.setItem("currentUser", email);
+                localStorage.setItem("userRole", "User");
+                alert("🔓 Logged in successfully! Welcome to Land of Frankincense.");
+                closeModal();
+                updateNavbar();
+            }
+        }
+
+        function updateNavbar() {
+            const currentUser = localStorage.getItem("currentUser");
+            const userRole = localStorage.getItem("userRole");
+            
+            const authBtn = document.getElementById("authBtn");
+            const logoutBtn = document.getElementById("logoutBtn");
+            const welcomeMsg = document.getElementById("welcomeMsg");
+            const adminDashBtn = document.getElementById("adminDashBtn");
+
+            if (currentUser) {
+                authBtn.style.display = "none";
+                logoutBtn.style.display = "block";
+                
+                if (userRole === "Admin") {
+                    welcomeMsg.innerText = "Logged in as: Admin 👑";
+                    adminDashBtn.style.display = "block"; // إظهار زر لوحة التحكم
+                } else {
+                    welcomeMsg.innerText = `Hello, ${currentUser.split('@')[0]} ✨`;
+                    adminDashBtn.style.display = "none";
+                }
+                welcomeMsg.style.display = "inline";
+            } else {
+                authBtn.style.display = "block";
+                logoutBtn.style.display = "none";
+                welcomeMsg.style.display = "none";
+                adminDashBtn.style.display = "none";
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem("currentUser");
+            localStorage.removeItem("userRole");
+            alert("🔒 Logged out successfully.");
+            updateNavbar();
+            window.location.reload();
+        }
+
+        function checkAccess() {
+            const currentUser = localStorage.getItem("currentUser");
+            if (!currentUser) {
+                alert("⛔ Access Denied! Please register or login first to explore the website features.");
+                openModal(); // فتح نافذة الدخول تلقائياً
+            } else {
+                window.location.href = "history.html";
+            }
+        }
+    </script>
+</body>
+</html>
